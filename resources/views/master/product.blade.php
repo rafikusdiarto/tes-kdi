@@ -70,7 +70,7 @@
                                    {{ $item->nmprod }}
                                 </p>
                             </td>
-                            <td class="px-4 py-2 text-center">{{ $item->uom->nmuom }}</td>
+                            <td class="px-4 py-2 text-left">{{ $item->uom->nmuom }}</td>
                             <td class="px-4 py-2 text-center">
                                 <form action="{{ route('master.product.destroy', $item->idprod) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');" class="inline-block">
                                     @csrf

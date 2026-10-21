@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Master\ProductController;
 use App\Http\Controllers\Master\UomController;
+use App\Http\Controllers\Master\VendorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Settings\MenuController;
+use App\Http\Controllers\Transaction\PortalController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,10 +31,17 @@ Route::middleware('auth')->group(function () {
     Route::put('/mst_product/{idprod}', [ProductController::class, 'update'])->name('master.product.update');
     Route::delete('/mst_product/{idprod}', [ProductController::class, 'destroy'])->name('master.product.destroy');
 
+    Route::get('/mst_vendor', [VendorController::class, 'index'])->name('master.vendor');
+    Route::post('/mst_vendor', [VendorController::class, 'store'])->name('master.vendor.store');
+    Route::put('/mst_vendor/{idvend}', [VendorController::class, 'update'])->name('master.vendor.update');
+    Route::delete('/mst_vendor/{idvend}', [VendorController::class, 'destroy'])->name('master.vendor.destroy');
+
     Route::get('/set_menu', [MenuController::class, 'index'])->name('settings.menu');
     Route::post('/set_menu', [MenuController::class, 'store'])->name('settings.menu.store');
     Route::put('/set_menu/{idmnu}', [MenuController::class, 'update'])->name('settings.menu.update');
     Route::delete('/set_menu/{idmnu}', [MenuController::class, 'destroy'])->name('settings.menu.destroy');
 });
+
+Route::get('/portal_supplier', [PortalController::class, 'index'])->name('transaction.portal');
 
 require __DIR__ . '/auth.php';
