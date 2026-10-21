@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Master\ProductController;
 use App\Http\Controllers\Master\UomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Settings\MenuController;
@@ -22,6 +23,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/mst_uom', [UomController::class, 'store'])->name('master.uom.store');
     Route::put('/mst_uom/{iduom}', [UomController::class, 'update'])->name('master.uom.update');
     Route::delete('/mst_uom/{iduom}', [UomController::class, 'destroy'])->name('master.uom.destroy');
+
+    Route::get('/mst_product', [ProductController::class, 'index'])->name('master.product');
+    Route::post('/mst_product', [ProductController::class, 'store'])->name('master.product.store');
+    Route::put('/mst_product/{idprod}', [ProductController::class, 'update'])->name('master.product.update');
+    Route::delete('/mst_product/{idprod}', [ProductController::class, 'destroy'])->name('master.product.destroy');
 
     Route::get('/set_menu', [MenuController::class, 'index'])->name('settings.menu');
     Route::post('/set_menu', [MenuController::class, 'store'])->name('settings.menu.store');

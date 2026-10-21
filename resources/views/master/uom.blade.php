@@ -6,7 +6,6 @@
     <div class="flex flex-col justify-between mb-6 md:flex-row md:items-center">
         <div>
             <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">Unit of Measure</h2>
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Kelola daftar satuan barang (UOM).</p>
         </div>
         <div class="mt-4 md:mt-0">
             <button id="btnOpenModal" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white transition-colors rounded-md bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
@@ -102,7 +101,7 @@
 
                 <div>
                     <label for="nmuom" class="block mb-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">Unit of Measure Name</label>
-                    <input type="text" name="nmuom" id="nmuom" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-violet-500 focus:border-violet-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="e.g. PCS, KGS, LTR" required autocomplete="off">
+                    <input type="text" name="nmuom" id="nmuom" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-violet-500 focus:border-violet-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" required autocomplete="off">
                 </div>
 
                 <div class="flex justify-end gap-3 pt-4 mt-6 border-t border-gray-100 dark:border-gray-700">
