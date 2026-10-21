@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('nosales', 15);
             $table->float('qty');
             $table->string('ppn')->default('0');
+            $table->string('stsofr')->default('1');
             $table->unsignedBigInteger('crtby')->nullable();
             $table->timestamp('crtdt')->nullable();
             $table->unsignedBigInteger('updby')->nullable();
