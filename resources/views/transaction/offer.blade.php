@@ -72,7 +72,7 @@
 
                                 <td class="px-4 py-2 text-center">
                                     <button type="button"
-                                        class="font-medium text-blue-600 transition-colors btn-edit-offer hover:text-blue-800 hover:underline dark:text-blue-400 dark:hover:text-blue-300 {{ $item->stsofr == '3' ? 'cursor-not-allowed opacity-50' : '' }}" {{ $item->stsofr == '3' ? 'disabled' : '' }}
+                                        class="font-medium text-blue-600 transition-colors btn-edit-offer hover:text-blue-800 hover:underline dark:text-blue-400 dark:hover:text-blue-300 {{ $item->stsofr == '3' || $item->stsofr == "99" ? 'cursor-not-allowed opacity-50' : '' }}" {{ $item->stsofr == '3' || $item->stsofr == "99" ? 'disabled' : '' }}
                                         title="Edit Data Penawaran" data-id="{{ $item->idofr }}"
                                         data-idvend="{{ $item->idvend }}" data-nmsales="{{ $item->nmsales }}"
                                         data-nosales="{{ $item->nosales }}" data-email="{{ $item->email }}"
@@ -126,7 +126,20 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-2 text-left">{{ $item->dtofr ?? '~' }}</td>
-                                <td class="px-4 py-2 text-left">{{ $item->stats_trans ?? '~' }}</td>
+                                <td class="px-4 py-2 text-left">
+                                    <select class="status-select w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" {{ $item->stsofr == '3' || $item->stsofr == "99" ? 'disabled' : '' }}
+                                            data-id="{{ $item->idofr }}"
+                                            data-old="{{ $item->stsofr }}">
+
+                                        <option value="">Pilih Status</option>
+                                        @foreach($statsTrans as $stat)
+                                            <option value="{{ $stat->valprm }}" {{ $item->stsofr == $stat->valprm ? 'selected' : '' }}>
+                                                {{ $stat->valprm1 }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -402,6 +415,45 @@
                     ':idofr', idofr);
                 $('#form_edit_offer').attr('action', updateUrl);
                 $('#modal_edit_offer').removeClass('hidden');
+            });
+
+            $('select.status-select').select2({
+                width: '100%'
+            });
+
+            $('#dataTableUom tbody').on('change', '.status-select', function() {
+                let $select =$(this);
+                let idofr = $select.data('id');
+                let oldVal = $select.data('old');
+                let newVal = $select.val();
+                let newText = $select.find('option:selected').text();
+
+                if (oldVal === newVal || newVal === "") return;
+
+                let confirmUpdate = confirm(`Apakah Anda yakin akan mengupdate status menjadi ${newText}?`);
+
+                if (confirmUpdate) {
+                    $select.prop('disabled', true);
+                    let updateUrl = `{{ route('transaction.offer.updateStats', ['idofr' => ':idofr']) }}`.replace(':idofr', idofr);
+                    $.ajax({
+                        url: updateUrl,
+                        type: 'PUT',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            stsofr: newVal
+                        },
+                        success: function(response) {
+                            $select.data('old', newVal);$select.prop('disabled', false);
+
+                        },
+                        error: function(xhr) {
+                            $select.val(oldVal);$select.prop('disabled', false);
+                            alert('Terjadi kesalahan saat mengupdate status penawaran.');
+                        }
+                    });
+                } else {
+                    $select.val(oldVal);
+                }
             });
 
         });

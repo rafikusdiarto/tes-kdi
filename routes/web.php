@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/trn_offer', [OfferController::class, 'index'])->name('transaction.offer');
     Route::put('/trn_offer/{idofr}', [OfferController::class, 'update'])->name('transaction.offer.update');
-    Route::put('/trn_offer/update_sts/{idofr}', [OfferController::class, 'updateStats'])->name('transaction.offer.update_sts');
+    Route::put('/trn_offer/update_sts/{idofr}', [OfferController::class, 'updateStats'])->name('transaction.offer.updateStats');
 
     Route::get('/set_menu', [MenuController::class, 'index'])->name('settings.menu');
     Route::post('/set_menu', [MenuController::class, 'store'])->name('settings.menu.store');

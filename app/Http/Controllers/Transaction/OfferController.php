@@ -82,12 +82,19 @@ class OfferController extends Controller
             $offer = Offer::where('idofr', $idofr)->firstOrFail();
 
             $offer->update($validated);
+            return response()->json([
+                'success' => true,
+                'message' => 'Status penawaran berhasil diperbarui',
+            ]);
 
-            return redirect()->back()->with('success', 'Data penawaran berhasil diperbarui');
+            // return redirect()->back()->with('success', 'Data penawaran berhasil diperbarui');
 
         } catch (\Exception $e) {
             Log::error('Error OfferController@update: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to update Offer: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update Offer: ' . $e->getMessage(),
+            ]);
         }
     }
 
