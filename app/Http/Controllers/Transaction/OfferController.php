@@ -24,7 +24,7 @@ class OfferController extends Controller
             $offers = Offer::with(['vendors', 'products', 'uom'])->get();
 
             $queryOffer = "
-            select a.idofr, a.idprod, a.idvend, a.iduom, a.nmsales, a.nosales , a.email ,a.qty, a.ppn, a.stsofr , a.dtofr , a.price, a.exuom,
+            select a.idofr, a.idprod, a.idvend, a.iduom, a.nmsales, a.nosales , a.email ,a.qty, a.ppn, a.stsofr , a.dtofr , a.price, a.exuom, a.exprod,
             b.nmprod, c.nmuom , d.nmvend , d.adrvend,e.valprm1 as stats_trans
             from t_offer a
             left join m_product b on b.idprod = a.idprod

@@ -23,13 +23,19 @@ class VendorController extends Controller
 
     public function store(Request $request)
     {
+        $cleaned = preg_replace('/[^a-zA-Z0-9\s]/', '', $request->nmvend);
+        $finalName = strtoupper(preg_replace('/\s+/', ' ', $cleaned));
+        $request->merge([
+            'nmvend' => $finalName
+        ]);
         $validated = $request->validate([
-            'nmvend' => 'required|string|max:150',
+            'nmvend' => 'required|string|max:150|unique:m_vendor,nmvend',
             'adrvend' => 'required|string',
         ]);
 
         try {
             Vendor::create($validated);
+
             return redirect()->route('master.vendor')->with('success', 'Supplier successfully created.');
         } catch (\Exception $e) {
             Log::error('Error VendorController@store: ' . $e->getMessage());
@@ -40,7 +46,7 @@ class VendorController extends Controller
     public function update(Request $request, $idvend)
     {
         $validated = $request->validate([
-            'nmvend' => 'required|string|max:150',
+            'nmvend' => 'required|string|max:150|unique:m_vendor,nmvend,' . $idvend . ',idvend',
             'adrvend' => 'required|string',
         ]);
 

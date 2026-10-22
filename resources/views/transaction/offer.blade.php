@@ -112,10 +112,17 @@
                                     @if ($item->exuom != '')
                                         @currency($item->price / $item->qty)
                                     @else
+                                        @currency($item->price ?? 0)
+                                    @endif
+                                </td>
+                                <td class="px-4 py-2 text-left">
+                                    @if ($item->exuom != '')
+                                        @currency($item->price ?? 0)
+                                    @else
                                         ~
                                     @endif
                                 </td>
-                                <td class="px-4 py-2 text-left">@currency($item->price ?? 0)</td>
+                                {{-- <td class="px-4 py-2 text-left">@currency($item->price ?? 0)</td> --}}
                                 <td class="px-4 py-2 text-left">
                                     @if ($item->ppn == '1')
                                         <span
@@ -286,7 +293,7 @@
                                                 Opsional</span></label>
                                         <input type="text" name="exuom" id="edit_exuom"
                                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                            placeholder="Kosongkan jika sama dengan master">
+                                            placeholder="">
                                     </div>
 
                                     <div class="grid grid-cols-2 gap-3">

@@ -122,10 +122,10 @@
                                     <i class="mt-0.5 fa fa-info-circle text-lg"></i>
                                     <p class="leading-relaxed">
                                         <strong>Info Konversi:</strong> Pilih <strong>Satuan Konversi</strong> dan masukkan nilai <strong>Kuantitas Konversi</strong> dari satuan Supplier. Isi <strong>Harga</strong> sesuai harga satuan Supplier.<br>
-                                        <em>Contoh referensi satuan asli: "1 Dump Truck".</em>
+                                        <em>Contoh referensi satuan asli: "Karung, 2 Karung".</em>
                                     </p>
                                 </div>
-                                <label for="exuom" class="block mb-1.5 text-sm font-medium text-gray-700">Satuan Supplier <span class="text-red-500">*</span></label>
+                                <label for="exuom" class="block mb-1.5 text-sm font-medium text-gray-700">Satuan & Kuantitas Supplier <span class="text-red-500">*</span></label>
                                 <input type="text" name="exuom" id="exuom" value="{{ old('exuom') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#2563EB] sm:text-sm">
                             </div>
 
@@ -134,7 +134,7 @@
                                 <input type="date" name="dtofr" id="dtofr" value="{{ now()->format('Y-m-d') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#2563EB] sm:text-sm" required>
                             </div>
                             <div class="md:col-span-4">
-                                <label for="price" class="block mb-1.5 text-sm font-medium text-gray-700">Harga Satuan Supplier<span class="text-red-500">*</span></label>
+                                <label for="price" class="block mb-1.5 text-sm font-medium text-gray-700">Harga Satuan<span class="text-red-500">*</span></label>
                                 <input type="number" step="any" name="price" id="price" value="{{ old('price') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#2563EB] sm:text-sm" required>
                             </div>
                             <div class="md:col-span-4">
@@ -164,7 +164,7 @@
     </div>
 
     <!-- MODAL VENDOR -->
-    <div id="modal_custom_vend" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div id="modal_custom_vend" class="fixed inset-0 z-50 hidden overflow-y-auto text-gray-700" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75 modal-overlay" aria-hidden="true"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
@@ -182,7 +182,7 @@
                             </div>
                             <div class="mt-2">
                                 <p class="mb-3 text-sm text-gray-500">Alamat Perusahaan</p>
-                                <input type="text" id="custom_addr" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#2563EB] sm:text-sm" placeholder="Contoh: Jl. Merdeka No. 123">
+                                <input type="text" id="custom_addr" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#2563EB] sm:text-sm" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@
     </div>
 
     <!-- MODAL PRODUCT -->
-    <div id="modal_custom_prod" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div id="modal_custom_prod" class="fixed inset-0 z-50 hidden overflow-y-auto text-gray-700" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75 modal-overlay" aria-hidden="true"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
@@ -214,7 +214,7 @@
                             <h3 class="text-lg font-medium leading-6 text-gray-900">Tambah Produk Baru</h3>
                             <div class="mt-2">
                                 <p class="mb-3 text-sm text-gray-500">Nama Produk</p>
-                                <input type="text" id="custom_nmprod" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#2563EB] sm:text-sm" placeholder="Contoh: Pasir Kuarsa Grade A">
+                                <input type="text" id="custom_nmprod" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#2563EB] sm:text-sm" placeholder="">
                             </div>
                         </div>
                     </div>
