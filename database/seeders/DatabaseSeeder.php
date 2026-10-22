@@ -52,10 +52,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('m_rmenu')->insert([
-            ['idrol' => 1, 'idmnu' => 1, 'viwrmn' => true],
-            ['idrol' => 1, 'idmnu' => 2, 'viwrmn' => true],
-            ['idrol' => 1, 'idmnu' => 3, 'viwrmn' => true],
-            ['idrol' => 1, 'idmnu' => 4, 'viwrmn' => true],
+            ['idrol' => 1, 'idmnu' => 1, 'viwrmn' => false],
+            ['idrol' => 1, 'idmnu' => 2, 'viwrmn' => false],
+            ['idrol' => 1, 'idmnu' => 3, 'viwrmn' => false],
+            ['idrol' => 1, 'idmnu' => 4, 'viwrmn' => false],
         ]);
 
     }
