@@ -61,16 +61,18 @@
                             <th class="w-32 px-4 py-3 font-medium text-center">Harga Satuan</th>
                             <th class="w-32 px-4 py-3 font-medium text-center">Harga Satuan Supplier</th>
                             <th class="w-32 px-4 py-3 font-medium text-center">PPN</th>
+                            <th class="w-32 px-4 py-3 font-medium text-center">Valid Date</th>
+                            <th class="w-32 px-4 py-3 font-medium text-center">Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($offers as $index => $item)
+                        @foreach ($offers2 as $index => $item)
                             <tr
                                 class="border-b border-gray-100 hover:bg-gray-50/50 dark:border-gray-700 dark:hover:bg-gray-700/50">
 
                                 <td class="px-4 py-2 text-center">
                                     <button type="button"
-                                        class="font-medium text-blue-600 transition-colors btn-edit-offer hover:text-blue-800 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
+                                        class="font-medium text-blue-600 transition-colors btn-edit-offer hover:text-blue-800 hover:underline dark:text-blue-400 dark:hover:text-blue-300 {{ $item->stsofr == '3' ? 'cursor-not-allowed opacity-50' : '' }}" {{ $item->stsofr == '3' ? 'disabled' : '' }}
                                         title="Edit Data Penawaran" data-id="{{ $item->idofr }}"
                                         data-idvend="{{ $item->idvend }}" data-nmsales="{{ $item->nmsales }}"
                                         data-nosales="{{ $item->nosales }}" data-email="{{ $item->email }}"
@@ -82,14 +84,14 @@
                                     </button>
                                 </td>
 
-                                <td class="px-4 py-2 text-left">{{ $item->vendors->nmvend ?? '~' }} /
-                                    {{ $item->vendors->adrvend ?? '~' }}</td>
+                                <td class="px-4 py-2 text-left">{{ $item->nmvend ?? '~' }} /
+                                    {{ $item->adrvend ?? '~' }}</td>
                                 <td class="px-4 py-2 text-left">{{ $item->nmsales ?? '~' }}</td>
                                 <td class="px-4 py-2 text-left">{{ $item->nosales ?? '~' }} / {{ $item->email ?? '~' }}</td>
 
                                 <td class="px-4 py-2 text-left">
-                                    @if ($item->products && $item->products->nmprod)
-                                        <span class="text-gray-800 dark:text-gray-200">{{ $item->products->nmprod }}</span>
+                                    @if ($item->nmprod)
+                                        <span class="text-gray-800 dark:text-gray-200">{{ $item->nmprod }}</span>
                                     @else
                                         <div class="flex flex-col items-start">
                                             <span class="font-medium text-amber-600 dark:text-amber-400">
@@ -104,7 +106,7 @@
                                 </td>
 
                                 <td class="px-4 py-2 text-left">{{ $item->qty ?? '~' }}</td>
-                                <td class="px-4 py-2 text-left">{{ $item->uom->nmuom ?? '~' }}</td>
+                                <td class="px-4 py-2 text-left">{{ $item->nmuom ?? '~' }}</td>
                                 <td class="px-4 py-2 text-left">{{ $item->exuom ?? '~' }}</td>
                                 <td class="px-4 py-2 text-left">
                                     @if ($item->exuom != '')
@@ -123,6 +125,8 @@
                                             class="px-2 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Tidak</span>
                                     @endif
                                 </td>
+                                <td class="px-4 py-2 text-left">{{ $item->dtofr ?? '~' }}</td>
+                                <td class="px-4 py-2 text-left">{{ $item->stats_trans ?? '~' }}</td>
                             </tr>
                         @endforeach
                     </tbody>

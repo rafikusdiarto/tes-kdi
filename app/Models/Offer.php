@@ -26,6 +26,7 @@ class Offer extends Model
         'price',
         'exuom',
         'exprod',
+        'dtofr',
     ];
 
     public function uom()
