@@ -56,6 +56,7 @@ Route::post('/api/product/store-quick', [PortalController::class, 'storeProductQ
 
 Route::get('/portal/captcha', [PortalController::class, 'captcha'])->name('portal.captcha');
 Route::post('/api/check-captcha', [PortalController::class, 'checkCaptcha'])->middleware('throttle:15,1')->name('check.captcha');
+Route::get('/api/send-mail', [PortalController::class, 'sendMails'])->name('sendMails');
 
 
 

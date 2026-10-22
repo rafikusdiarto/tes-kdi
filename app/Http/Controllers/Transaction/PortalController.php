@@ -8,6 +8,7 @@ use App\Models\Vendor;
 use App\Models\Product;
 use App\Models\Uom;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class PortalController extends Controller
@@ -163,6 +164,45 @@ class PortalController extends Controller
         $valid = $input !== '' && $expected !== '' && hash_equals($expected, $input);
 
         return response()->json(['status' => $valid]);
+    }
+
+    public function sendMails()
+    {
+        try {
+            set_time_limit(0);
+            $rows = DB::select('select distinct email from t_offer where stsmail = 0');
+            $total = count($rows);
+            $success = 0;
+            $failed = 0;
+
+            foreach ($rows as $row) {
+                try {
+                    DB::update(
+                        'update t_offer set stsmail = 1 where email = ? and stsmail = 0',
+                        [$row->email]
+                    );
+
+                    $success++;
+                } catch (\Throwable $e) {
+                    $failed++;
+                    Log::error('Send email gagal (' . $row->email . '): ' . $e->getMessage());
+                }
+            }
+
+            return response()->json([
+                'status' => true,
+                'total' => $total,
+                'success' => $success,
+                'failed' => $failed,
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('Error PortalController@sendEmails: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan pada server.',
+            ], 500);
+        }
     }
 
 }
