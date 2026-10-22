@@ -270,7 +270,9 @@
                     $('#iduom').val(selectedIduom).trigger('change');
                 }
             });
-            $('.btn_close_modal, .modal-overlay').on('click', function() {$('#modal_custom_vend, #modal_custom_prod').addClass('hidden');
+
+            $('.btn_close_modal, .modal-overlay').on('click', function() {
+                $('#modal_custom_vend, #modal_custom_prod').addClass('hidden');
             });
 
             $('#btn_open_modal_vend').on('click', function(e) {
@@ -286,29 +288,24 @@
             });
 
 
+            // --- 4. AJAX Save Vendor Kustom (TETAP AJAX) ---
             $('#btn_save_custom_vend').on('click', function() {
                 let inputVal = $('#custom_nmvend').val().trim();
-                let addrVal = $('#custom_addr').val().trim();
                 if (inputVal === '') { alert('Nama perusahaan tidak boleh kosong!'); return; }
-                if (addrVal === '') { alert('Alamat perusahaan tidak boleh kosong!'); return; }
 
-                let $btn =$(this);
-                let originalText = $btn.html();$btn.html('<i class="fa fa-spinner fa-spin mr-2"></i>Menyimpan...').prop('disabled', true);
+                let $btn = $(this);
+                let originalText = $btn.html();
+                $btn.html('<i class="fa fa-spinner fa-spin mr-2"></i>Menyimpan...').prop('disabled', true);
 
                 $.ajax({
                     url: "{{ route('api.vendor.store') }}",
                     type: "POST",
-                    data: {
-                        nmvend: inputVal,
-                        adrvend: addrVal
-                    },
+                    data: { nmvend: inputVal },
                     success: function(res) {
                         let newOption = new Option(res.nmvend, res.idvend, true, true);
                         $('#idvend').append(newOption).trigger('change');
-
                         $('#modal_custom_vend').addClass('hidden');
                         $('#custom_nmvend').val('');
-                        $('#custom_addr').val('');
                     },
                     error: function(xhr) {
                         alert('Terjadi kesalahan saat menyimpan data perusahaan.');
@@ -321,31 +318,17 @@
 
 
             $('#btn_save_custom_prod').on('click', function() {
-                let inputVal = $('#custom_nmprod').val().trim();
-                if (inputVal === '') { alert('Nama produk tidak boleh kosong!'); return; }
+                var customName = $('#custom_nmprod').val().trim();
 
-                let $btn =$(this);
-                let originalText = $btn.html();$btn.html('<i class="fa fa-spinner fa-spin mr-2"></i>Menyimpan...').prop('disabled', true);
-
-                $.ajax({
-                    url: "{{ route('api.product.store') }}",
-                    type: "POST",
-                    data: { nmprod: inputVal },
-                    success: function(res) {
-                        let newOption = $(`<option value="${res.idprod}" data-iduom="" selected>${res.nmprod}</option>`);
-                        $('#idprod').append(newOption).trigger('change');
-
-                        $('#iduom').val('').trigger('change');
-                        $('#modal_custom_prod').addClass('hidden');
-                        $('#custom_nmprod').val('');
-                    },
-                    error: function(xhr) {
-                        alert('Terjadi kesalahan saat menyimpan data produk.');
-                    },
-                    complete: function() {
-                        $btn.html(originalText).prop('disabled', false);
-                    }
-                });
+                if (customName !== '') {
+                    var newOption = new Option(customName, 'custom_' + customName, true, true);
+                    $('#idprod').append(newOption).trigger('change');
+                    $('#iduom').val('').trigger('change');
+                    $('#modal_custom_prod').addClass('hidden');
+                    $('#custom_nmprod').val('');
+                } else {
+                    alert('Nama produk tidak boleh kosong!');
+                }
             });
 
         });

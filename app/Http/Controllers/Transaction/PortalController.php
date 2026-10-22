@@ -31,7 +31,7 @@ class PortalController extends Controller
         // dd($request);
 
         $validated = $request->validate([
-            'idprod' => 'required',
+            'idprod' => 'required|string',
             'idvend' => 'required',
             'iduom' => 'required|exists:m_uom,iduom',
             'nmsales' => 'required|string|max:150',
@@ -40,10 +40,25 @@ class PortalController extends Controller
             'qty' => 'required|numeric|min:0',
             'dtofr' => 'required|date',
             'exuom' => 'nullable|string|max:150',
+            'exprod' => 'nullable|string|max:150',
             'price' => 'required|numeric|min:0',
         ]);
 
+        $idprod = $request->input('idprod');
+        $midprod = null;
+        $exprod = null;
+
+        if (str_starts_with($idprod, 'custom_')) {
+            $exprod = substr($idprod, 7);
+        } else {
+            $midprod = $idprod;
+        }
+
+        $validated['idprod'] = $midprod;
+        $validated['exprod'] = $exprod;
         $validated['ppn'] = $request->input('ppn');
+
+        // dd($validated);
 
 
         try {
