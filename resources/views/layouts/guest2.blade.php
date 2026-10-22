@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-900 text-gray-800 dark:bg-gray-900 dark:text-gray-200 antialiased">
+<body class="bg-gray-900 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
 
     @yield('content-portal')
     {{-- <div class="flex h-screen overflow-hidden">

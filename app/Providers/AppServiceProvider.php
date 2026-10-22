@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,10 @@ class AppServiceProvider extends ServiceProvider
 
                 $view->with('dynamicMenus', $groupedMenus);
             }
+        });
+
+        Blade::directive('currency', function ($expression) {
+            return "Rp. <?php echo number_format($expression,0,',','.'); ?>";
         });
     }
 }

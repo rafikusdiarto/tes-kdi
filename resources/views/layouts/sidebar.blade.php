@@ -1,7 +1,7 @@
 <aside id="sidebar" class="absolute inset-y-0 left-0 z-40 w-64 px-4 py-4 transition-transform duration-300 ease-in-out transform -translate-x-full bg-white border-r border-gray-200 lg:static lg:translate-x-0 lg:flex-shrink-0 dark:bg-gray-800 dark:border-gray-700">
 
     <div class="flex items-center justify-center mb-8 h-12">
-        <span class="text-2xl font-bold text-violet-600 dark:text-violet-400 tracking-wide">Vendor Portal</span>
+        <span class="text-2xl font-bold text-violet-600 dark:text-violet-400 tracking-wide">Supplier Portal</span>
     </div>
 
     <nav class="space-y-2 overflow-y-auto h-[calc(100vh-100px)]">
