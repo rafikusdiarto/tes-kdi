@@ -39,6 +39,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mst_vendor', [VendorController::class, 'index'])->name('master.vendor');
 
+    Route::get('/trn_offer', [OfferController::class, 'index'])->name('transaction.offer');
+    Route::put('/trn_offer/{idofr}', [OfferController::class, 'update'])->name('transaction.offer.update');
+
     Route::get('/set_menu', [MenuController::class, 'index'])->name('settings.menu');
     Route::post('/set_menu', [MenuController::class, 'store'])->name('settings.menu.store');
     Route::put('/set_menu/{idmnu}', [MenuController::class, 'update'])->name('settings.menu.update');
@@ -49,6 +52,5 @@ Route::get('/portal_supplier', [PortalController::class, 'index'])->name('transa
 Route::post('/portal_supplier', [PortalController::class, 'store'])->name('transaction.portal.store');
 Route::post('/api/vendor/store-quick', [PortalController::class, 'storeVendorQuick'])->name('api.vendor.store');
 Route::post('/api/product/store-quick', [PortalController::class, 'storeProductQuick'])->name('api.product.store');
-Route::get('/trn_offer', [OfferController::class, 'index'])->name('transaction.offer');
 
 require __DIR__ . '/auth.php';

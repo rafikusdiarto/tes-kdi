@@ -19,6 +19,7 @@ class Offer extends Model
         'iduom',
         'nmsales',
         'nosales',
+        'email',
         'qty',
         'ppn',
         'stsofr',

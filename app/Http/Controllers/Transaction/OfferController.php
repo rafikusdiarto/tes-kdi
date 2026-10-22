@@ -30,6 +30,36 @@ class OfferController extends Controller
         }
     }
 
+    public function update(Request $request, $idofr)
+    {
+        $validated = $request->validate([
+            'idvend' => 'required',
+            'idprod' => 'required',
+            'iduom' => 'required|exists:m_uom,iduom',
+            'nmsales' => 'required|string|max:150',
+            'nosales' => 'required|string|max:20',
+            'email' => 'required|email|max:150',
+            'qty' => 'required|numeric|min:0',
+            'exuom' => 'nullable|string|max:150',
+            'price' => 'required|numeric|min:0',
+            'ppn' => 'required|in:0,1',
+        ]);
+
+        $validated['exprod'] = null;
+
+        try {
+            $offer = Offer::where('idofr', $idofr)->firstOrFail();
+
+            $offer->update($validated);
+
+            return redirect()->back()->with('success', 'Data penawaran berhasil diperbarui');
+
+        } catch (\Exception $e) {
+            Log::error('Error OfferController@update: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update Offer: ' . $e->getMessage());
+        }
+    }
+
 
 
 }
