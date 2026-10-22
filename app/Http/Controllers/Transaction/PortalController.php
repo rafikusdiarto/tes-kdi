@@ -70,11 +70,23 @@ class PortalController extends Controller
         $validated['ppn'] = $request->input('ppn');
 
         // dd($validated);
-
+        $vendorName = Vendor::where('idvend', $validated['idvend'])->value('nmvend');
+        $productName = Product::where('idprod', $validated['idprod'])->value('nmprod') ?? $validated['custom_prod_nm'] ?? '~';
 
         try {
-            Offer::create($validated);
-            return redirect()->back()->with('success', 'Penawaran berhasil ditambahkan.');
+            $offer = Offer::create($validated);
+            return redirect()->back()->with([
+                'success' => 'Penawaran berhasil dikirim',
+                'data' => [
+                    'id' => $offer->idofr,
+                    'vendor' => $vendorName,
+                    'name' => $offer->nmsales,
+                    'product' => $productName,
+                    'qty' => $validated['qty'],
+                    'price' => $validated['price'],
+                    'date' => now()->format('d-m-Y H:i'),
+                ]
+            ]);
         } catch (\Exception $e) {
             Log::error('Error PortalController@store: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to add Offer: ' . $e->getMessage());

@@ -21,8 +21,46 @@
             <div class="px-4 py-8 bg-gray-100 border-t-4 shadow-lg rounded-xl sm:px-10 border-[#2563EB]">
                 <!-- Alert Info -->
                 @if (session('success'))
-                    <div class="relative px-4 py-3 mb-6 text-sm text-green-800 bg-green-100 border border-green-200 rounded-lg">
-                        <div><i class="mr-2 fa fa-check-circle"></i>{{ session('success') }}</div>
+                    <div class="relative px-6 py-4 mb-6 text-sm text-green-900 bg-green-50 rounded-xl">
+                        <div class="flex items-center mb-2 font-bold text-green-800 text-base">
+                            <i class="mr-2 fa fa-check-circle text-lg"></i>{{ session('success') }}
+                        </div>
+
+                        @if(session('data'))
+                            @php $receipt = session('data'); @endphp
+                            <div class="mt-3 p-4 bg-white border border-green-200 rounded-lg text-gray-700 space-y-1.5 text-xs sm:text-sm">
+                                <div class="grid grid-cols-2 gap-1">
+                                    <span class="text-gray-500">ID:</span>
+                                    <span class="font-medium text-gray-900">{{ $receipt['id'] }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-1">
+                                    <span class="text-gray-500">Perusahaan:</span>
+                                    <span class="font-medium text-gray-900">{{ $receipt['vendor'] }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-1">
+                                    <span class="text-gray-500">Nama:</span>
+                                    <span class="font-medium text-gray-900">{{ $receipt['name'] }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-1">
+                                    <span class="text-gray-500">Produk:</span>
+                                    <span class="font-medium text-gray-900">{{ $receipt['product'] }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-1">
+                                    <span class="text-gray-500">Kuantitas:</span>
+                                    <span class="font-medium text-gray-900">{{ $receipt['qty'] }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-1">
+                                    <span class="text-gray-500">Harga Satuan:</span>
+                                    <span class="font-medium text-gray-900">Rp {{ number_format($receipt['price'], 0, ',', '.') }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-1 pt-2 border-t mt-2">
+                                    <span class="text-gray-500">Waktu Kirim:</span>
+                                    <span class="font-medium text-gray-900">{{ $receipt['date'] }} WIB</span>
+                                </div>
+                            </div>
+
+                            <p class="mt-2 text-xs text-green-700 italic text-center">Silakan screenshot bukti ini bahwa penawaran berhasil disubmit.</p>
+                        @endif
                     </div>
                 @endif
                 @if (session('error') || $errors->any())
