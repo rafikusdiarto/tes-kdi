@@ -15,6 +15,7 @@ class PortalController extends Controller
     public function index()
     {
         try {
+
             $vendors = Vendor::orderBy('nmvend', 'asc')->get();
             $products = Product::orderBy('nmprod', 'asc')->get();
             $uoms = Uom::orderBy('nmuom', 'asc')->get();
@@ -31,6 +32,7 @@ class PortalController extends Controller
         // dd($request);
 
         $validated = $request->validate([
+            'captcha' => 'required|digits:4',
             'idprod' => 'required|string',
             'idvend' => 'required',
             'iduom' => 'required|exists:m_uom,iduom',
@@ -43,6 +45,14 @@ class PortalController extends Controller
             'exprod' => 'nullable|string|max:150',
             'price' => 'required|numeric|min:0',
         ]);
+
+        $expected = session()->pull('captcha_code');
+
+        if (!$expected || !hash_equals((string) $expected, (string) $validated['captcha'])) {
+            return redirect()->back()->withInput()->with('error', 'Kode verifikasi (captcha) salah, silakan coba lagi.');
+        }
+
+        unset($validated['captcha']);
 
         $idprod = $request->input('idprod');
         $midprod = null;
@@ -101,6 +111,58 @@ class PortalController extends Controller
             'idprod' => $product->idprod,
             'nmprod' => $product->nmprod
         ]);
+    }
+
+    public function captcha()
+    {
+        $code = (string) random_int(1000, 9999);
+        session(['captcha_code' => $code]);
+
+        $width = 130;
+        $height = 45;
+        $image = imagecreatetruecolor($width, $height);
+
+        $bg = imagecolorallocate($image, 245, 247, 250);
+        imagefilledrectangle($image, 0, 0, $width, $height, $bg);
+
+        // Garis noise
+        for ($i = 0; $i < 6; $i++) {
+            $c = imagecolorallocate($image, rand(140, 180), rand(140, 180), rand(140, 180));
+            imageline($image, rand(0, $width), rand(0, $height), rand(0, $width), rand(0, $height), $c);
+        }
+
+        // Titik noise
+        for ($i = 0; $i < 60; $i++) {
+            $c = imagecolorallocate($image, rand(150, 200), rand(150, 200), rand(150, 200));
+            imagesetpixel($image, rand(0, $width - 1), rand(0, $height - 1), $c);
+        }
+
+        // 4 digit dengan posisi vertikal sedikit acak
+        for ($i = 0; $i < 4; $i++) {
+            $c = imagecolorallocate($image, rand(10, 60), rand(10, 60), rand(50, 120));
+            imagestring($image, 5, 20 + ($i * 22), rand(8, 18), $code[$i], $c);
+        }
+
+        ob_start();
+        imagepng($image, null, 6);
+        $png = ob_get_clean();
+        imagedestroy($image);
+
+        return response($png, 200, [
+            'Content-Type' => 'image/png',
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma' => 'no-cache',
+        ]);
+    }
+
+    public function checkCaptcha(Request $request)
+    {
+        $input = (string) $request->input('captcha');
+        $expected = (string) session('captcha_code');
+
+        $valid = $input !== '' && $expected !== '' && hash_equals($expected, $input);
+
+        return response()->json(['status' => $valid]);
     }
 
 }

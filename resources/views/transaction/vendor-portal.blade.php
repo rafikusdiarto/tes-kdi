@@ -31,7 +31,18 @@
                     </div>
                 @endif
 
-                <form action="{{ route('transaction.portal.store') }}" method="POST" class="space-y-8">
+                @if (session('error') || $errors->any())
+                    <div class="relative px-4 py-3 mb-6 text-sm text-red-800 bg-red-100 border border-red-200 rounded-lg">
+                        @if (session('error'))
+                            <div><i class="mr-2 fa fa-exclamation-circle"></i>{{ session('error') }}</div>
+                        @endif
+                        @foreach ($errors->all() as $err)
+                            <div><i class="mr-2 fa fa-exclamation-circle"></i>{{ $err }}</div>
+                        @endforeach
+                    </div>
+                @endif
+
+                <form action="{{ route('transaction.portal.store') }}" method="POST" class="space-y-2">
                     @csrf
                     <div>
                         <h3 class="pb-2 text-lg font-semibold border-b text-[#0B192C] border-gray-200 mb-4">
@@ -153,8 +164,30 @@
                         </div>
                     </div>
 
+                    <div class="">
+                        <label for="captcha" class="block mb-2 text-sm font-medium text-gray-700">
+                            Verifikasi Keamanan <span class="text-red-500">*</span>
+                        </label>
+                        <div class="flex items-center space-x-4 mb-3">
+                            <div class="p-1 bg-white border border-gray-300 rounded shadow-inner inline-block">
+                                <img id="captcha_img" src="{{ route('portal.captcha') }}?t={{ now()->timestamp }}"
+                                    width="100" height="35" alt="Captcha" class="select-none">
+                            </div>
+                            <button type="button" id="btn_refresh_captcha" class="text-xs text-[#2563EB] hover:underline">
+                                <i class="fa fa-sync-alt"></i> Muat Ulang Kode
+                            </button>
+                        </div>
+
+                        <div class="relative w-full md:w-1/3">
+                            <input type="text" name="captcha" id="captcha" maxlength="4" class="w-full px-3 py-2 border border-gray-300 text-gray-700 rounded-md focus:ring-[#2563EB] sm:text-sm" placeholder="Ketik 4 digit angka..." required>
+                            <span id="captcha_status" class="absolute right-3 top-2.5 text-sm font-semibold hidden"></span>
+                        </div>
+                    </div>
+
+
+
                     <div class="pt-4">
-                        <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2563EB] hover:bg-[#1E3A8A] focus:ring-2 focus:ring-offset-2 focus:ring-[#2563EB] transition-colors">
+                        <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2563EB] hover:bg-[#1E3A8A] focus:ring-2 focus:ring-offset-2 focus:ring-[#2563EB] transition-colors opacity-50 cursor-not-allowed" disabled>
                             <i class="mr-2 fa fa-paper-plane"></i> Submit Penawaran
                         </button>
                     </div>
@@ -331,6 +364,61 @@
                 }
             });
 
+            function refreshCaptcha() {
+                $('#captcha_img').attr('src', "{{ route('portal.captcha') }}?t=" + Date.now());
+                $('#captcha').val('').trigger('input');
+                $('button[type="submit"]').prop('disabled', false).removeClass('opacity-50 cursor-not-allowed');
+            }
+            $('#btn_refresh_captcha').on('click', refreshCaptcha);
+
+            $('#captcha').on('input', function() {
+                let inputVal = $(this).val().trim();
+                let $status = $('#captcha_status');
+                let $feedback = $('#captcha_feedback');
+                let $submitBtn = $('button[type="submit"]');
+
+                // Batasi hanya 4 karakter
+                if (inputVal.length > 4) {
+                    inputVal = inputVal.slice(0, 4);
+                    $(this).val(inputVal);
+                }
+
+                // Jika tepat 4 digit, jalankan cek AJAX
+                if (inputVal.length === 4) {
+                    $.ajax({
+                        url: "{{ route('check.captcha') }}",
+                        type: "POST",
+                        data: { captcha: inputVal },
+                        success: function(response) {
+                            if (response.status) {
+                                // Jika benar
+                                $('#captcha').removeClass('border-red-500').addClass('border-green-500 bg-green-50');
+                                $status.html('<i class="text-green-600 fa fa-check-circle"></i>').removeClass('hidden');
+                                $feedback.text('Verifikasi berhasil!').removeClass('text-red-500').addClass('text-green-600');
+                                $submitBtn.prop('disabled', false).removeClass('opacity-50 cursor-not-allowed');
+                            } else {
+                                // Jika salah
+                                $('#captcha').removeClass('border-green-500 bg-green-50').addClass('border-red-500');
+                                $status.html('<i class="text-red-600 fa fa-times-circle"></i>').removeClass('hidden');
+                                $feedback.text('Kode verifikasi salah, silakan cek kembali.').removeClass('text-green-600').addClass('text-red-500');
+                                $submitBtn.prop('disabled', true).addClass('opacity-50 cursor-not-allowed');
+                            }
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 429) {
+                                $('#captcha_feedback').text('Terlalu banyak percobaan, tunggu sebentar.').addClass('text-red-500');
+                            }
+                        },
+                    });
+                } else {
+                    // Jika belum 4 digit, reset indikator
+                    $('#captcha').removeClass('border-green-500 border-red-500 bg-green-50');
+                    $status.addClass('hidden');
+                    $feedback.text('Masukkan persis 4 angka yang tertera pada gambar.').removeClass('text-green-600 text-red-500').addClass('text-gray-500');
+                }
+            });
+
         });
+
     </script>
 @endsection

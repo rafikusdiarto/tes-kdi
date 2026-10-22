@@ -54,4 +54,9 @@ Route::post('/portal_supplier', [PortalController::class, 'store'])->name('trans
 Route::post('/api/vendor/store-quick', [PortalController::class, 'storeVendorQuick'])->name('api.vendor.store');
 Route::post('/api/product/store-quick', [PortalController::class, 'storeProductQuick'])->name('api.product.store');
 
+Route::get('/portal/captcha', [PortalController::class, 'captcha'])->name('portal.captcha');
+Route::post('/api/check-captcha', [PortalController::class, 'checkCaptcha'])->middleware('throttle:15,1')->name('check.captcha');
+
+
+
 require __DIR__ . '/auth.php';
