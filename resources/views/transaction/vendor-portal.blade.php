@@ -46,10 +46,10 @@
                                         <i class="fa fa-plus-circle"></i> Perusahaan tidak ada di list?
                                     </button>
                                 </div>
-                                <select name="idvend" id="idvend" class="w-full select2" required>
+                                <select name="idvend" id="idvend" class="text-gray-700 w-full select2" required>
                                     <option value="">Pilih Vendor</option>
                                     @foreach ($vendors as $vendor)
-                                        <option value="{{ $vendor->idvend }}" {{ old('idvend') == $vendor->idvend ? 'selected' : '' }}>
+                                        <option class="" value="{{ $vendor->idvend }}" {{ old('idvend') == $vendor->idvend ? 'selected' : '' }}>
                                             {{ $vendor->nmvend }}
                                         </option>
                                     @endforeach

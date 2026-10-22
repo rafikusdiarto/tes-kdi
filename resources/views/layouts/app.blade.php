@@ -9,6 +9,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #374151 !important;
+            line-height: 38px !important;
+        }
+        .select2-container--default .select2-results__option {
+            color: #374151 !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            border-color: #D1D5DB !important;
+            border-radius: 5px !important;
+            height: 38px !important;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 font-sans antialiased">
 

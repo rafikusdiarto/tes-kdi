@@ -38,14 +38,13 @@ class OfferController extends Controller
             'iduom' => 'required|exists:m_uom,iduom',
             'nmsales' => 'required|string|max:150',
             'nosales' => 'required|string|max:20',
-            'email' => 'required|email|max:150',
+            'email' => 'nullable|email|max:150',
             'qty' => 'required|numeric|min:0',
             'exuom' => 'nullable|string|max:150',
+            'exprod' => 'nullable|string|max:150',
             'price' => 'required|numeric|min:0',
             'ppn' => 'required|in:0,1',
         ]);
-
-        $validated['exprod'] = null;
 
         try {
             $offer = Offer::where('idofr', $idofr)->firstOrFail();
