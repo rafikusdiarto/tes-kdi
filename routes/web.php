@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/portal_supplier', [PortalController::class, 'index'])->name('transaction.portal');
 Route::post('/portal_supplier', [PortalController::class, 'store'])->name('transaction.portal.store');
+Route::post('/api/vendor/store-quick', [PortalController::class, 'storeVendorQuick'])->name('api.vendor.store');
+Route::post('/api/product/store-quick', [PortalController::class, 'storeProductQuick'])->name('api.product.store');
 Route::get('/trn_offer', [OfferController::class, 'index'])->name('transaction.offer');
 
 require __DIR__ . '/auth.php';

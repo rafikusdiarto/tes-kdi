@@ -28,6 +28,8 @@ class PortalController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
+
         $validated = $request->validate([
             'idprod' => 'required',
             'idvend' => 'required',
@@ -37,13 +39,12 @@ class PortalController extends Controller
             'email' => 'required|email|max:150',
             'qty' => 'required|numeric|min:0',
             'dtofr' => 'required|date',
-            'exuom' => 'string|max:150',
+            'exuom' => 'nullable|string|max:150',
             'price' => 'required|numeric|min:0',
         ]);
 
         $validated['ppn'] = $request->input('ppn');
 
-        // dd($validated);
 
         try {
             Offer::create($validated);
@@ -52,6 +53,39 @@ class PortalController extends Controller
             Log::error('Error PortalController@store: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to add Offer: ' . $e->getMessage());
         }
+    }
+
+    public function storeVendorQuick(Request $request)
+    {
+        $request->validate([
+            'nmvend' => 'required|string',
+            'adrvend' => 'required|string'
+        ]);
+        $vendor = Vendor::create([
+            'nmvend' => $request->nmvend,
+            'adrvend' => $request->adrvend,
+        ]);
+
+        return response()->json([
+            'idvend' => $vendor->idvend,
+            'nmvend' => $vendor->nmvend
+        ]);
+    }
+
+    public function storeProductQuick(Request $request)
+    {
+        $request->validate([
+            'nmprod' => 'required|string'
+        ]);
+
+        $product = Product::create([
+            'nmprod' => $request->nmprod,
+        ]);
+
+        return response()->json([
+            'idprod' => $product->idprod,
+            'nmprod' => $product->nmprod
+        ]);
     }
 
 }

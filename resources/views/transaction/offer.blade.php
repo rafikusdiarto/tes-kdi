@@ -77,7 +77,7 @@
                                 @endif
                             </td>
                             <td class="px-4 py-2 text-left">@currency($item->price ?? 0)</td>
-                            <td class="px-4 py-2 text-left">{{ $item->ppn ?? '~' }}</td>
+                            <td class="px-4 py-2 text-left">{{ $item->ppn == "1" ? "Ya" : "Tidak" }}</td>
                         </tr>
                     @endforeach
                 </tbody>
